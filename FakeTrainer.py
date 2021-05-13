@@ -3,9 +3,9 @@ from FakeModel import *
 from FakeDataset import FakeEmoDataset
 import torch
 from cleaner import *
-from transformers import DebertaTokenizer, BertTokenizer
+from transformers import RobertaTokenizer
 from transformers import DataCollatorForLanguageModeling
-from transformers import DebertaForMaskedLM
+from transformers import RobertaForMaskedLM
 from transformers import Trainer, TrainingArguments
 from datasets import load_dataset
 from datasets import Dataset
@@ -34,7 +34,7 @@ def group_texts(examples):
 
 
 def fine_tuning():
-    df_train = read_json('./processed_data/preprocess_train.json')[['text', 'reply', 'label']]
+    df_train = read_json('./processed_data/preprocess_train.json')[['text', 'reply', 'label']].sample(frac=1).reset_index(drop=True)
     df_dev = read_json('./processed_data/preprocess_my_dev.json')[['text', 'reply', 'label']]
 
     category = {
@@ -44,47 +44,44 @@ def fine_tuning():
     df_train['label'] = df_train['label'].map(category)
     df_dev['label'] = df_dev['label'].map(category)
 
-    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-
     global tokenizer
-    tokenizer = DebertaTokenizer.from_pretrained('microsoft/deberta-base', return_token_type_ids=True)
-
-    # train_encodings = tokenizer(df_train['text'].values.tolist(), df_train['reply'].values.tolist(), truncation=True, padding=True, return_tensors='pt')
-    # dev_encodings = tokenizer(df_dev['text'].values.tolist(), df_dev['reply'].values.tolist(), truncation=True, padding=True, return_tensors='pt')
-
+    tokenizer = RobertaTokenizer.from_pretrained('roberta-base', return_token_type_ids=True)
+    
     datasets_train = Dataset.from_pandas(df_train)
-    tokenized_datasets_train = datasets_train.map(tokenize_function, batched=True, num_proc=4, remove_columns=['text', 'reply', 'label'])
+    tokenized_datasets_train = datasets_train.map(tokenize_function, batched=True, num_proc=8, remove_columns=['text', 'reply', 'label'])
     datasets_dev = Dataset.from_pandas(df_dev)
-    tokenized_datasets_dev = datasets_dev.map(tokenize_function, batched=True, num_proc=4, remove_columns=['text', 'reply', 'label'])
+    tokenized_datasets_dev = datasets_dev.map(tokenize_function, batched=True, num_proc=8, remove_columns=['text', 'reply', 'label'])
 
 
     lm_datasets_train = tokenized_datasets_train.map(
         group_texts,
         batched=True,
         batch_size=1000,
-        num_proc=4
+        num_proc=8
     )
     lm_datasets_dev = tokenized_datasets_dev.map(
         group_texts,
         batched=True,
         batch_size=1000,
-        num_proc=4
+        num_proc=8
     )
 
 
-    model = DebertaForMaskedLM.from_pretrained('microsoft/deberta-base')
+    model = RobertaForMaskedLM.from_pretrained('roberta-base')
     data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
 
     training_args = TrainingArguments(
-        num_train_epochs=5,
-        per_device_train_batch_size=8,
-        per_device_eval_batch_size=8,
-        learning_rate=5e-7,
+        num_train_epochs=3,
+        per_device_train_batch_size=16,
+        per_device_eval_batch_size=16,
+        learning_rate=5e-6,
 
-        output_dir='./language_models/deberta_base_1/',
+        output_dir='./language_models/roberta_base_1/',
+        logging_dir='./language_models/roberta_base_1/',
+        logging_strategy='steps',
         report_to='tensorboard',
         seed=42,
-        evaluation_strategy="steps",
+        evaluation_strategy='steps',
         eval_steps=2000,
         save_steps=2000,
         save_strategy='steps'
