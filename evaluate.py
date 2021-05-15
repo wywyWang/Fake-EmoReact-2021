@@ -3,12 +3,10 @@ from simpletransformers.classification import ClassificationModel, Classificatio
 
 
 def predict_dev():
-    model = ClassificationModel("roberta", "./models/roberta_base_5/")
+    model = ClassificationModel("deberta", "./models/deberta_base_lm_6/checkpoint-12000/")
+    # df_dev = read_json('./processed_data/preprocess_my_dev.json')
     df_dev = read_json('./original_data/dev.json')
     df_predicted_dev = df_dev.copy()[['text', 'reply']]
-
-    # df_predicted_dev['text'] = df_predicted_dev.text.apply(normalize_Tweet)
-    # df_predicted_dev['reply'] = df_predicted_dev.reply.apply(normalize_Tweet)
     df_predicted_dev.columns = ['text_a', 'text_b']
 
     predictions, raw_outputs = model.predict(df_predicted_dev.values.tolist())
@@ -26,12 +24,10 @@ def predict_dev():
 
 
 def predict_test():
-    model = ClassificationModel("roberta", "./models/roberta_base_5/")
+    model = ClassificationModel("deberta", "./models/deberta_base_lm_6/checkpoint-12000/")
+    # df_test = read_json('./processed_data/preprocess_eval.json')
     df_test = read_json('./original_data/eval.json')
     df_predicted_test = df_test.copy()[['text', 'reply']]
-
-    # df_predicted_test['text'] = df_predicted_test.text.apply(normalize_Tweet)
-    # df_predicted_test['reply'] = df_predicted_test.reply.apply(normalize_Tweet)
     df_predicted_test.columns = ['text_a', 'text_b']
 
     predictions, raw_outputs = model.predict(df_predicted_test.values.tolist())
