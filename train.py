@@ -15,8 +15,8 @@ transformers_logger.setLevel(logging.WARNING)
 
 
 MODEL_TYPE = "deberta"
-PRETRAINED_PATH = 'language_models/deberta_base_original_1/'
-OUTPUT_PATH = './models/deberta_base_lm_original_11/'
+PRETRAINED_PATH = 'microsoft/deberta-base'
+OUTPUT_PATH = './models/deberta_base_original_1/'
 
 
 if __name__ == '__main__':
