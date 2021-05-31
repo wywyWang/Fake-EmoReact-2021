@@ -135,9 +135,9 @@ def map_special(text):
 
 
 def preprocessing():
-    df_train = read_json('./original_data/train.json')
-    df_dev = read_json('./original_data/dev.json')
-    df_test = read_json('./original_data/eval.json')
+    df_train = read_json('./original_data/new_train.json')
+    df_dev = read_json('./original_data/new_dev.json')
+    df_test = read_json('./original_data/new_eval.json')
 
     # tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
 
@@ -229,13 +229,13 @@ def preprocessing():
     # output preprocessed to json
     df_preprocessed = df_train[['idx', 'map_more_punc_text', 'categories', 'context_idx', 'map_more_punc_reply', 'mp4', 'label']].copy()
     df_preprocessed.columns = ['idx', 'text', 'categories', 'context_idx', 'reply', 'mp4', 'label']
-    df_preprocessed.to_json('./processed_data/preprocess_train.json', orient='records')
+    df_preprocessed.to_json('./processed_data/preprocess_new_train.json', orient='records')
     df_preprocessed_dev = df_dev[['idx', 'map_more_punc_text', 'categories', 'context_idx', 'map_more_punc_reply', 'mp4']].copy()
     df_preprocessed_dev.columns = ['idx', 'text', 'categories', 'context_idx', 'reply', 'mp4']
-    df_preprocessed_dev.to_json('./processed_data/preprocess_dev.json', orient='records')
+    df_preprocessed_dev.to_json('./processed_data/preprocess_new_dev.json', orient='records')
     df_preprocessed_test = df_test[['idx', 'map_more_punc_text', 'categories', 'context_idx', 'map_more_punc_reply', 'mp4']].copy()
     df_preprocessed_test.columns = ['idx', 'text', 'categories', 'context_idx', 'reply', 'mp4']
-    df_preprocessed_test.to_json('./processed_data/preprocess_eval.json', orient='records')
+    df_preprocessed_test.to_json('./processed_data/preprocess_new_eval.json', orient='records')
 
     print("\n[Done]")
 

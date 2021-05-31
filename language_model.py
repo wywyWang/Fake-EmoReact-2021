@@ -22,13 +22,13 @@ def train_language_model():
         max_seq_length=113,
         learning_rate=5e-7,
         evaluate_during_training=True,
-        evaluate_during_training_steps=2000,
-        tensorboard_dir='./language_models/deberta_base_original_1/',
+        evaluate_during_training_steps=4000,
+        tensorboard_dir='./language_models/deberta_base_original_2/',
 
-        output_dir='./language_models/deberta_base_original_1/',
-        manual_seed=42,
+        output_dir='./language_models/deberta_base_original_2/',
+        manual_seed=2021,
         use_multiprocessing=False,
-        save_steps=2000,
+        save_steps=5000,
         n_gpu=1
     )
 
