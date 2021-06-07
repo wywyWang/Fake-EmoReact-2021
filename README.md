@@ -1,6 +1,6 @@
 # Fake-EmoReact-2021
 
-Source code of competition in Fake-EmoReact 2021, the shared task of SocialNLP 2021 (in conjunction with NAACL 2021). We won the **first place**, and the report can be seen as [here](./Fake_EmoReact_Yao.pdf).
+Source code of competition in [Fake-EmoReact 2021](https://sites.google.com/view/covidfake-emoreact-2021), the shared task of SocialNLP 2021 (in conjunction with NAACL 2021). We won the **first place**, and the report can be seen as [here](./Fake_EmoReact_Yao.pdf).
 
 ## Challenge
 Given an unlabeled tweet and its GIF response, the model should predict the label of tweet as fake or real.
@@ -16,3 +16,8 @@ The positive samples are tweets with the hashtag #FakeNews where the Covid relat
     - 110,492 in Round 2 (main track).
 ## Metric
 - The metric that will be used to evaluate entries are Macro-Precision, Macro-Recall, and Macro-F1 from Scikit-learn.
+
+## Leaderboard
+<div align="left">
+<img src="leaderboard.png"/>
+</div>
