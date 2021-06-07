@@ -1,6 +1,6 @@
 # Fake-EmoReact-2021
 
-Source code of competition in Fake-EmoReact 2021, the shared task of SocialNLP 2021 (in conjunction with NAACL 2021). We won the first place.
+Source code of competition in Fake-EmoReact 2021, the shared task of SocialNLP 2021 (in conjunction with NAACL 2021). We won the **first place**, and the report can be seen as [here](./Fake_EmoReact_Yao.pdf).
 
 ## Challenge
 Given an unlabeled tweet and its GIF response, the model should predict the label of tweet as fake or real.
